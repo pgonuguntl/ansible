@@ -1,0 +1,22 @@
+Keytool -v -list --keystore <keystorename>
+
+# JKS -> P12
+keytool -importkeystore -srckeystore keystore.jks -srcstoretype JKS -deststoretype PKCS12 -destkeystore keystore.p12
+
+# P12 -> JKS
+keytool -importkeystore -srckeystore keystore.p12 -srcstoretype PKCS12 -deststoretype JKS -destkeystore keystore.jks
+
+#  Generate a Java keystore and key pair
+keytool -genkey -alias mydomain -keyalg RSA -keysize 2048 -keystore mykeystore.jks
+
+# Generate a certificate signing request (CSR) for an existing Java keystore
+keytool -certreq -alias mydomain -keyalg RSA -file mydomain.csr -keystore mykeystore.jks
+
+# Import a root or intermediate CA certificate to an existing Java keystore
+keytool -import -trustcacerts -alias ca-root -file ca-root.pem -keystore cacerts
+keytool -import -trustcacerts -alias thawte-root -file thawte.crt -keystore keystore.jks
+
+# Generate a keystore and self-signed certificate
+keytool -genkey -keyalg RSA -alias selfsigned -keystore keystore.jks -storepass password -validity 360
+
+  
